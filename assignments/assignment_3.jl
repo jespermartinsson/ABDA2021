@@ -66,7 +66,12 @@ end
 
 
 if true
+    # Below is coded pdfs for the bernoulli. Note that there exist packeges to do the same thing but then you miss out on how to create your own pdf functions. 
+    # For example with the package Distributions: 
+    # using Distributions
+    # bernoulli_pdf(y,θ) = pdf(Bernoulli(θ),y) 
     
+
     function bernoulli_pdf(y,θ) # Eq. (6.1)
         return θ^y*(1.0-θ)^(1.0-y)
     end
