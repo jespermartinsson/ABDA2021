@@ -9,13 +9,13 @@ function gen_seed()
     return round(Int,(t-floor(t))*1e6)
 end
 
-function sample_student(rows, n=1)
-    row = (rows[1]-0.5) .+ (rows[end]-rows[1]+1)*rand(n)
+function sample_student(rows, n=1, rng=Xoshiro())
+    row = (rows[1]-0.5) .+ (rows[end]-rows[1]+1)*rand(rng,n)
     return round.(Int,row)
 end
 
-function test_sampling(rows, n = 100_000)
-    x = sample_student(rows,n)
+function test_sampling(rows, n = 100_000, rng=Xoshiro())
+    x = sample_student(rows,n,rng)
     bins = rows[1]:rows[end]
     nr = zeros(length(bins))
     for i in 1:length(bins)
@@ -40,9 +40,9 @@ rows = [4,23]
 test_sampling(rows)
 
 seed = gen_seed();
+rng = Xoshiro(seed);
 printstyled("seed: ", seed, "\n", color = :green)
-Random.seed!(seed);
-printstyled("student at row: ", sample_student(rows), "\n", color=:magenta)
+printstyled("student at row: ", sample_student(rows,1,rng), "\n", color=:magenta)
 
 
 
