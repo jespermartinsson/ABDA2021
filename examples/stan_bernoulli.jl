@@ -1,7 +1,8 @@
 # Following https://stanjulia.github.io/CmdStan.jl/stable/WALKTHROUGH/
 using CmdStan
 using StatsPlots
-using MCMCChain
+using MCMCChains
+using Statistics
 
 const bernoullistanmodel = "
 data { 
@@ -25,6 +26,6 @@ ProjDir = "."
 rc, chns, cnames = stan(stanmodel, bernoullidata, ProjDir, CmdStanDir=CMDSTAN_HOME)
 
 
-describe(chns)
-theta = get_params(chns).theta[:]
-plot(chns)
+ind = findall(cnames.=="theta")
+StatsPlots.density(chns[:,ind,:])
+
