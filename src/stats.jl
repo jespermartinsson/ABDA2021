@@ -308,10 +308,13 @@ function mcse(x)
 end
 
 
-function myhist(x,bins=0;color = "k",baseline = 0, label=nothing)
+function myhist(x,bins=0;color = "k",baseline = 0, label=nothing, scale = 1)
     if bins == 0
         bins=Int(round(sqrt(length(x))))
         hist_data = fit(Histogram,x,nbins=bins)
+    elseif typeof(bins)==Int64
+        hist_data = fit(Histogram,x,nbins=bins)
+
     else
         hist_data = fit(Histogram,x,bins)
     end
@@ -324,7 +327,7 @@ function myhist(x,bins=0;color = "k",baseline = 0, label=nothing)
     dbin = bins[2]-bins[1]
     N = sum(fr)
     #plt["hist"](mu_y_samp[i,:],100,alpha=0.5)
-    xv,yv = get_mystep(bins,fr./N/dbin)
+    xv,yv = get_mystep(bins,fr./N/dbin.*scale)
     fill_between(xv,yv .+ baseline, baseline, color=color,alpha=0.25,label=label)
 
     ind = (xv.>ci[1]).*(xv.<ci[2])
