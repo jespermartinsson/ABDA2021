@@ -145,7 +145,6 @@ tau2_samp = std(logy) .* tau_samp
 exp_mu2_samp = exp.(mu2_samp .+ 0.5 .* tau2_samp.^2 .+ 0.5 .* sigma2_samp.^2)
 
 
-
 figure()
 myhist(exp_mu2_samp, color = "b")
 xlabel(string("\$\\exp(\\mu + \\tau^2/2 + \\sigma^2/2)\$"))
