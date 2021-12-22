@@ -83,12 +83,12 @@ if true # testing parsers
     close("all")
 
     # read data from csv
-    filename = (@__DIR__) * raw"/data/ABDA 2019 -- Reaction time - Sheet1.tsv"
-
-    skip_lines = [14,15,24,25,26,27,42] .- 1 
+    filename = (@__DIR__) * raw"/data/ABDA 2021 -- Reaction time - Sheet1.tsv"
 
 
-    y, ind, subject, kids, x = parse_data_flatten(filename, skip_lines)
+
+
+    y, ind, subject, kids, x = parse_data_flatten(filename)
     figure()
     for j in 1:ind[end]
         i = 1:sum(ind .== j)
@@ -128,7 +128,7 @@ if true # testing parsers
 
 
 
-    y, subject, kids, x = parse_data_array(filename, skip_lines)
+    y, subject, kids, x = parse_data_array(filename)
     figure()
     for j in 1:length(y)
         i = 1:length(y[j])
