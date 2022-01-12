@@ -320,6 +320,35 @@ plt["tight_layout"]()
 
 
 
+
+
+figure()
+thetas = range(xl[1], xl[2], 1000)
+plot(thetas, exp.(logprior_thetas.(thetas, mean(mu2_samp, dims = 2)[3], mean(tau2_samp))), label = "\$p(\\hat{\\mu},\\hat{\\tau)}\$", color = "k")
+plot(thetas, exp.(logprior_thetas.(thetas, mean(mu2_samp, dims = 2)[1], mean(tau2_samp))), label = "\$p(\\hat{\\mu}+\\hat{\\varphi},\\hat{\\tau)}\$", color = "r")
+mean_pdf_kids = zeros(1000)
+mean_pdf_adults = zeros(1000)
+for i = 1:1000
+    mean_pdf_adults .+= exp.(logprior_thetas.(thetas, mu2_samp[3, i], tau2_samp[i]))
+    mean_pdf_kids .+= exp.(logprior_thetas.(thetas, mu2_samp[1, i], tau2_samp[i]))
+    plot(thetas, exp.(logprior_thetas.(thetas, mu2_samp[3, i], tau2_samp[i])), color = "k", alpha = 0.01)
+    plot(thetas, exp.(logprior_thetas.(thetas, mu2_samp[1, i], tau2_samp[i])), color = "r", alpha = 0.01)
+end
+mean_pdf_adults .= mean_pdf_adults / 1000
+mean_pdf_kids .= mean_pdf_kids / 1000
+plot(thetas, mean_pdf_adults, "--", label = "\$\\frac{1}{N}\\sum_{i=1}^N p(\\mu_i,\\tau_i)\$", color = "k")
+plot(thetas, mean_pdf_kids, "--", label = "\$\\frac{1}{N}\\sum_{i=1}^Np(\\mu_i+\\varphi_i,\\tau_i)\$", color = "r")
+
+
+
+plt["legend"]()
+plt["yticks"]([])
+xlabel(string("\$\\theta_j\$ expected log(reaction time)"))
+plt["tight_layout"]()
+
+
+
+
 # (ln(y)-my)/sy = theta + phi*c + s*e
 # ln(y) = sy*(theta + phi*c + s*e) + my
 # ln(y) = beta + sigma*e, beta = sy*theta + sy*phi*c + my, sigma = sy*s
